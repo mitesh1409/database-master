@@ -1,4 +1,4 @@
-# Intermediate SQL
+# Intermediate SQL - Data Aggregation
 
 **Index**  
 
@@ -328,6 +328,36 @@ FROM table_name
 GROUP BY grouping_col1, grouping_col2;
 ```
 
+**Incorrect `GROUP BY`**
+
+Example #1: Incorrect `GROUP BY`
+
+```sql
+SELECT location,
+       category,
+       COUNT(order_id)         AS order_count,
+       COUNT(DISTINCT user_id) AS user_count,
+       SUM(amount)             AS revenue,
+       AVG(amount)             AS avg_amount
+FROM orders
+GROUP BY location;
+```
+
+SELECT list expression references column category which is neither grouped nor aggregated at [2:8]
+
+Example #2: Incorrect `GROUP BY`
+
+```sql
+SELECT location,
+       COUNT(order_id) AS order_count
+FROM orders
+GROUP BY location, category;
+```
+
+It executes successfully but gives confusing results.
+
+**Best practice**: Always include all grouping columns in your SELECT clause so results are clear and interpretable. If you're grouping by it, show it!
+
 ---
 
 ## #11 Metric Reliability
@@ -379,6 +409,8 @@ ORDER BY grouping_col1 ASC, metric_2 DESC;
 
 ---
 
+## BigQuery
+
 BigQuery is Google's serverless data warehouse, built to analyze massive amounts of data in seconds.
 
 It has strong benefits:  
@@ -386,33 +418,3 @@ It has strong benefits:
 * **Industry Standard**: Widely adopted across startups and enterprises, making it a valuable skill in today's data-driven job market
 
 * **Free to practice**: Google offers a generous free tier, so you can practice as much as you need without spending anything
-
----
-
-Example #1: Incorrect GROUP BY
-
-```sql
-SELECT location,
-       category,
-       COUNT(order_id)         AS order_count,
-       COUNT(DISTINCT user_id) AS user_count,
-       SUM(amount)             AS revenue,
-       AVG(amount)             AS avg_amount
-FROM orders
-GROUP BY location;
-```
-
-SELECT list expression references column category which is neither grouped nor aggregated at [2:8]
-
-Example #2: Incorrect GROUP BY
-
-```sql
-SELECT location,
-       COUNT(order_id) AS order_count
-FROM orders
-GROUP BY location, category;
-```
-
-It executes successfully but gives confusing results.
-
-Best practice: Always include all grouping columns in your SELECT clause so results are clear and interpretable. If you're grouping by it, show it!
