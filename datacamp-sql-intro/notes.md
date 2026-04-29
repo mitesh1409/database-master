@@ -8,7 +8,7 @@
 4. Column Selection
 5. Sorting
 6. Row Limiting
-7. Temporary Results
+7. Temporary Results OR Query Results
 8. Error Handling
 9. Finding Unique Values
 10. Column Aliasing
@@ -23,7 +23,7 @@
 
 ## #1 Databases
 
-* A database is a system for managing data that allows us to store data reliably, retrieve information efficiently, and manipulate data systematically
+* A database is a system for managing data that allows us to store data reliably, retrieve information efficiently, and manipulate data systematically.
 
 * Databases power web, mobile and other applications, as well as data analysis and reporting.
 
@@ -108,7 +108,7 @@ might return far more data than expected.
 
 ---
 
-## #7 Temporary Results
+## #7 Temporary Results OR Query Results
 
 * The original database remains unchanged when you run `SELECT` queries.
 
@@ -117,6 +117,24 @@ might return far more data than expected.
 The result of a query is a temporary copy of the data — it's not stored in the database.
 
 You need to intentionally save it to your computer (or the cloud) if you want to keep it for later use.
+
+**Saving Query Results**  
+
+There are several ways to save query results in practice:
+
+#1 Export to files  
+Most SQL clients let you export results to CSV, Excel, or other formats for sharing or analysis. This is the simplest approach for one-time results.
+
+#2 Create tables  
+You can save results as a new permanent table in the database using `CREATE TABLE AS SELECT` or `INSERT INTO`. This is common for staging data or creating reporting tables.
+
+#3 Views  
+Views are virtual tables that store the query definition, not the actual data. When you query a view, it runs the underlying query fresh each time. Views are great for simplifying complex queries or controlling access, but they don't avoid the expense of re-running the query.
+
+#4 Materialized views  
+These are pre-computed results stored as actual data. They're refreshed periodically rather than computed on every query. They are widely used in industry for expensive queries like aggregations and reports. The tradeoff is keeping them updated.
+
+In case of expensive queries, materialized views are indeed the industry-standard solution!
 
 ---
 
@@ -268,7 +286,7 @@ Here's the distinction:
 
 So a Materialized View is not used to store Temporary Results — it's used to avoid recomputing *expensive* queries repeatedly by storing the output long-term.
 
-**Real-life example — E-commerce Monthly Sales Report**
+**Real-life example — E-commerce Monthly Sales Report**  
 
 Imagine an e-commerce platform like Flipkart with millions of orders. Every time the business team opens their dashboard, they want to see *total sales by product category for the current month*.
 
