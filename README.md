@@ -1,6 +1,5 @@
 # database-master
 
-Content related to Database
-
+Resources and content for learning Databases.
 
 git add . && git commit -m "🚀" && git push

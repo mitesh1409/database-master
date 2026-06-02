@@ -1,6 +1,6 @@
 # SQL Exercises
 
-## Example Tables
+## #1 Example Tables
 
 **products table**  
 
@@ -52,7 +52,7 @@ INSERT INTO customers (id, name, family_name, email, city, signup_date) VALUES
 
 ---
 
-## What are the top 10 highest rated products in our catalog?
+## #2 What are the top 10 highest rated products in our catalog?
 
 Get top 10 products with highest rating.
 
@@ -67,7 +67,7 @@ LIMIT 10;
 
 ---
 
-## What are the top 5 highest/lowest value orders?
+## #3 What are the top 5 highest/lowest value orders?
 
 Get the top 5 highest value orders.
 
@@ -93,7 +93,7 @@ LIMIT 5;
 
 ---
 
-## What are the unique categories in our product catalog?
+## #4 What are the unique categories in our product catalog?
 
 ```sql
 SELECT DISTINCT category AS unique_categories
