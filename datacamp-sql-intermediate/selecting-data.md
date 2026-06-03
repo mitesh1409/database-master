@@ -6,6 +6,7 @@
 4. [Combination of `COUNT()` & `DISTINCT`](#4-combination-of-count--distinct)
 5. [Query Execution](#5-query-execution)
 6. [Debugging SQL](#6-debugging-sql)
+7. [SQL Style](#7-sql-style)
 
 ---
 
@@ -213,3 +214,138 @@ SQL errors usually tell you the **line number** and **what went wrong**. Read it
 ✓ JOIN has an ON condition?  
 
 ---
+
+## #7 SQL Style
+
+**SQL Formatting**  
+
+* Formatting is not required
+* But lack of formatting can cause issues - query becomes hard to read and understand as it grows
+
+BAD Formatting Example  
+
+```sql
+select title, release_year, country from films limit 3;
+```
+
+Above query works fine but it is not easy to read and understand.  
+
+GOOD Formatting Example  
+
+```sql
+SELECT title, release_year, country
+FROM films
+LIMIT 3;
+```
+
+Reference:  
+[SQL style guide by Simon Holywell](https://www.sqlstyle.guide/)
+
+**Non-standard fields**  
+
+Example  
+
+Here "facebook likes" is a non-standard field.  
+
+```sql
+-- Create 'reviews' table (Child table linked to films)
+CREATE TABLE reviews (
+    id INT4 PRIMARY KEY,
+    film_id INT4,
+    num_user INT4,
+    num_critic INT4,
+    imdb_score FLOAT4,
+    num_votes INT4,
+    "facebook likes" INT4,
+    FOREIGN KEY (film_id) REFERENCES films(id) ON DELETE CASCADE
+);
+
+-- Selects film_id and "facebook likes" from all the reviews.
+SELECT film_id, "facebook likes"
+FROM reviews;
+```
+
+Using **underscores** (`facebook_likes`) is the standard SQL naming convention — it's cleaner, more portable, and avoids the need for quotes entirely.
+
+**Why avoid quoted/non-standard names?**  
+
+| Issue | `"facebook likes"` | `facebook_likes` |
+|---|---|---|
+| Requires quotes everywhere | ✅ Yes, always | ❌ No |
+| Portable across databases | ❌ Not always | ✅ Yes |
+| Risk of typo errors | Higher | Lower |
+| Readable & conventional | ❌ No | ✅ Yes |
+
+Stick to **lowercase + underscores** and you'll rarely need to quote anything.
+
+### Key Rules from Simon Holywell's SQL Style Guide
+
+### General
+
+```
+✓ Use UPPERCASE for reserved keywords  →  SELECT, WHERE, FROM
+✓ Use lowercase for column and table names
+✓ Use underscores for spaces            →  first_name, not firstName
+✓ Use single quotes for strings         →  WHERE name = 'Alice'
+✓ Store dates in ISO 8601 format        →  YYYY-MM-DDTHH:MM:SS
+✓ Use standard SQL functions over vendor-specific ones
+```
+
+### Naming
+
+| Thing | Rule | Example |
+|---|---|---|
+| Tables | Collective/singular noun, no prefix | `staff`, not `tbl_employees` |
+| Columns | Singular, lowercase | `first_name`, not `FirstNames` |
+| Aliases | Use `AS`, initials of the object | `FROM staff AS s` |
+| Keys | Prefer `_id`, `_num`, `_date` suffixes | `film_id`, `created_date` |
+
+Avoid: `camelCase`, `tbl_` prefixes, quoted identifiers, plurals.
+
+### Formatting — The "River" Style
+
+Right-align keywords and left-align values to create a visual gap down the middle — makes queries easy to scan:
+
+```sql
+SELECT a.title,
+       a.release_date
+  FROM albums AS a
+ WHERE a.title = 'Charcoal Lane'
+    OR a.title = 'The New Danger';
+```
+
+Notice `SELECT`, `FROM`, `WHERE` all end at the same column.
+
+### Query Best Practices
+
+```
+✓ Use BETWEEN instead of multiple ANDs
+✓ Use IN() instead of multiple ORs
+✓ Use CASE for conditional logic
+✗ Avoid UNION and temp tables where possible
+✗ Avoid SELECT * in production queries
+```
+
+### `CREATE TABLE` Style
+
+```sql
+CREATE TABLE staff (
+    PRIMARY KEY (staff_num),
+    staff_num   INT(5)       NOT NULL,
+    first_name  VARCHAR(100) NOT NULL,
+    last_name   VARCHAR(100) NOT NULL
+);
+```
+
+- Primary key first
+- Align column definitions with consistent spacing
+- Indent by 4 spaces inside `CREATE`
+
+### Comments
+
+```sql
+-- Single line comment
+
+/* Multi-line comment
+   for longer explanations */
+```
