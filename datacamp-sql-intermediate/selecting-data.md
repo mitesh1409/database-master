@@ -1,4 +1,13 @@
-# Datacamp - Intermediate SQL -> Selecting Data
+# Selecting Data
+
+1. [Setup films database](#1-setup-films-database)
+2. [`COUNT()`](#2-count)
+3. [`DISTINCT`](#3-distinct)
+4. [Combination of `COUNT()` & `DISTINCT`](#4-combination-of-count--distinct)
+
+---
+
+## #1 Setup films database
 
 Create films database along with tables - films, people, reviews & roles.
 
@@ -52,43 +61,61 @@ CREATE TABLE roles (
 
 ---
 
-`COUNT()` function
+## #2 `COUNT()`
 
 It counts the number of records with a value in a field.
 
-`COUNT(field_name)` - counts values in a field.
+`COUNT(field_name)`  
+Counts non-null values in a field. It ignores NULL values.
 
-`COUNT(*)` - counts records in a table.
+`COUNT(*)`  
+This counts every single row that matches your query criteria, completely ignoring whether individual columns contain NULL values or not.
+
+**Examples**  
 
 ```sql
--- Count total records
+-- Count total records, ignores NULL values in one or multiple columns.
 SELECT COUNT(*) AS total_records
 FROM people;
 
--- Count birthdate
+-- Count non-null birthdate values
 SELECT COUNT(birthdate) AS count_birthdates
 FROM people;
 
--- Count birthdate and name
+-- Count non-null birthdate and name values
 SELECT COUNT(birthdate) AS count_birthdates, COUNT(name) AS count_names
 FROM people;
 ```
 
 ---
 
-`DISTINCT` - removes duplicates to return only unique values.
+## #3 `DISTINCT`
+
+It removes duplicates to return only unique values.  
+Also it treats NULL as a unique value.  
+
+**Examples**  
 
 ```sql
+-- Following returns all the language values including NULL
 SELECT language
 FROM films;
 
+-- Following returns unique language values including NULL
 SELECT DISTINCT language
 FROM films;
 ```
 
-Combine `COUNT()` with `DISTINCT` to count unique values.
+---
+
+## #4 Combination of `COUNT()` & `DISTINCT`
+
+Combine `COUNT()` with `DISTINCT` to count unique non-null values.  
+`COUNT()` ignores NULL values, so combination of `COUNT()` & `DISTINCT` gives count of  
+unique non-null values.
 
 ```sql
+-- Following returns the count of unique non-null birthdate values.
 SELECT COUNT(DISTINCT birthdate) AS count_distinct_birthdates
 FROM people;
 ```

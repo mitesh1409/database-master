@@ -4,3 +4,5 @@ Index
 
 1. [Selecting Data](./selecting-data.md)
 
+
+[Exercises](./exercises.md)
