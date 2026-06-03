@@ -1,5 +1,7 @@
 # Selecting Data
 
+## Index
+
 1. [Setup films database](#1-setup-films-database)
 2. [`COUNT()`](#2-count)
 3. [`DISTINCT`](#3-distinct)

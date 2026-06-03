@@ -3,6 +3,4 @@
 Index
 
 1. [Selecting Data](./selecting-data.md)
-
-
-[Exercises](./exercises.md)
+2. [Filtering Records](./filtering-records.md)
