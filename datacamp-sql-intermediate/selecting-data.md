@@ -4,6 +4,8 @@
 2. [`COUNT()`](#2-count)
 3. [`DISTINCT`](#3-distinct)
 4. [Combination of `COUNT()` & `DISTINCT`](#4-combination-of-count--distinct)
+5. [Query Execution](#5-query-execution)
+6. [Debugging SQL](#6-debugging-sql)
 
 ---
 
@@ -119,3 +121,95 @@ unique non-null values.
 SELECT COUNT(DISTINCT birthdate) AS count_distinct_birthdates
 FROM people;
 ```
+
+---
+
+## #5 Query Execution
+
+Unlike many programming languages, SQL code is not processed in the order it is written.  
+
+```
+┌─────────────────────────────────────────┐
+│         SQL ORDER OF EXECUTION          │
+└─────────────────────────────────────────┘
+
+        ┌─────────────────────────┐
+   ①    │      FROM / JOIN        │  ← Load tables, apply joins
+        └────────────┬────────────┘
+                     │
+        ┌────────────▼────────────┐
+   ②    │         WHERE           │  ← Filter rows (before grouping)
+        └────────────┬────────────┘
+                     │
+        ┌────────────▼────────────┐
+   ③    │        GROUP BY         │  ← Group rows by column(s)
+        └────────────┬────────────┘
+                     │
+        ┌────────────▼────────────┐
+   ④    │         HAVING          │  ← Filter groups (after grouping)
+        └────────────┬────────────┘
+                     │
+        ┌────────────▼────────────┐
+   ⑤    │         SELECT          │  ← Pick columns, run expressions
+        └────────────┬────────────┘
+                     │
+        ┌────────────▼────────────┐
+   ⑥    │        DISTINCT         │  ← Remove duplicate rows
+        └────────────┬────────────┘
+                     │
+        ┌────────────▼────────────┐
+   ⑦    │        ORDER BY         │  ← Sort the result set
+        └────────────┬────────────┘
+                     │
+        ┌────────────▼────────────┐
+   ⑧    │      LIMIT / OFFSET     │  ← Trim to final row count
+        └─────────────────────────┘
+```
+
+The key insight: **`SELECT` is step 5**, not step 1 — even though you write it first. This is why you can't use a `SELECT` alias in a `WHERE` clause (that alias doesn't exist yet when `WHERE` runs).
+
+A few practical gotchas this explains:
+
+- **`WHERE` vs `HAVING`** — `WHERE` filters *rows* before grouping; `HAVING` filters *groups* after. Use `WHERE` whenever you can — it's faster.
+- **Can't use aliases in `WHERE`** — the alias is defined in `SELECT` (step 5), which runs after `WHERE` (step 2).
+- **`ORDER BY` can use aliases** — it runs after `SELECT`, so the alias is already defined by then.
+- **`LIMIT` is last** — sorting happens first, then the rows are trimmed. This matters for correctness.
+
+---
+
+## #6 Debugging SQL
+
+### Key Points for Debugging SQL
+
+**1. Read the error message**  
+
+SQL errors usually tell you the **line number** and **what went wrong**. Read it before guessing.
+
+**2. Common mistakes**  
+
+| Mistake | Example |
+|---|---|
+| Misspelling | `SELCT` instead of `SELECT` |
+| Wrong capitalization | Usually fine — SQL keywords are case-insensitive, but **string values are not**: `'Alice' ≠ 'alice'` |
+| Missing comma | Between column names in `SELECT` |
+| Extra comma | Trailing comma before `FROM` |
+| Wrong quotes | Using `"double"` for strings instead of `'single'` (varies by DB) |
+| Missing alias | Referencing a `SELECT` alias in `WHERE` (not allowed — see execution order) |
+
+**3. Debugging strategy**  
+
+1. **Run a simpler version first** — strip it down to `SELECT * FROM table` and add clauses back one by one.
+2. **Check the execution order** — if a clause isn't working, ask *"does that column/alias even exist at this step?"*
+3. **Isolate subqueries** — run inner queries independently to verify their output.
+4. **Check your data** — sometimes the query is correct but the data isn't what you expect. Use `SELECT *` to inspect.
+
+**Quick checklist before running**  
+
+✓ All keywords spelled correctly?  
+✓ Commas between every column in SELECT?  
+✓ Matching parentheses ( )?  
+✓ String values in single quotes ' '?  
+✓ Table and column names correct (case-sensitive in some DBs)?  
+✓ JOIN has an ON condition?  
+
+---

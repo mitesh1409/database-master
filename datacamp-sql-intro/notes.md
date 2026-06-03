@@ -2,22 +2,22 @@
 
 **Index**  
 
-1. Databases
-2. Data Organization
-3. SQL Basics
-4. Column Selection
-5. Sorting
-6. Row Limiting
-7. Temporary Results OR Query Results
-8. Error Handling
-9. Finding Unique Values
-10. Column Aliasing
-11. SQL Style Conventions
-12. Different Database Systems OR SQL Flavors
-13. Database Server & Database Client, Client-Server Architecture
-14. SQL Client OR Database Client
-15. Database Access
-16. Materialized Views
+1. [Databases](#1-databases)
+2. [Data Organization](#2-data-organization)
+3. [SQL Basics](#3-sql-basics)
+4. [Column Selection](#4-column-selection)
+5. [Sorting](#5-sorting)
+6. [Row Limiting](#6-row-limiting)
+7. [Temporary Results OR Query Results](#7-temporary-results-or-query-results)
+8. [Error Handling](#8-error-handling)
+9. [Finding Unique Values](#9-finding-unique-values)
+10. [Column Aliasing](#10-column-aliasing)
+11. [SQL Style Conventions](#11-sql-style-conventions)
+12. [Different Database Systems OR SQL Flavors](#12-different-database-systems-or-sql-flavors)
+13. [Database Server & Database Client, Client-Server Architecture](#13-database-server--database-client-client-server-architecture)
+14. [SQL Client OR Database Client](#14-sql-client-or-database-client)
+15. [Database Access](#15-database-access)
+16. [Materialized Views](#16-materialized-views)
 
 ---
 
