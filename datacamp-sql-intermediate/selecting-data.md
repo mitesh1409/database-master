@@ -137,35 +137,35 @@ Unlike many programming languages, SQL code is not processed in the order it is 
 └─────────────────────────────────────────┘
 
         ┌─────────────────────────┐
-   ①    │      FROM / JOIN        │  ← Load tables, apply joins
+   ①    │      FROM / JOIN        │  ← Load tables, apply joins | Setup the Data Source
         └────────────┬────────────┘
                      │
         ┌────────────▼────────────┐
-   ②    │         WHERE           │  ← Filter rows (before grouping)
+   ②    │         WHERE           │  ← Filter rows (before grouping) | Filtering Data
         └────────────┬────────────┘
                      │
         ┌────────────▼────────────┐
-   ③    │        GROUP BY         │  ← Group rows by column(s)
+   ③    │        GROUP BY         │  ← Group rows by column(s) | Grouping Data
         └────────────┬────────────┘
                      │
         ┌────────────▼────────────┐
-   ④    │         HAVING          │  ← Filter groups (after grouping)
+   ④    │         HAVING          │  ← Filter groups (after grouping) | Filtering Group
         └────────────┬────────────┘
                      │
         ┌────────────▼────────────┐
-   ⑤    │         SELECT          │  ← Pick columns, run expressions
+   ⑤    │         SELECT          │  ← Pick columns, run expressions | Shaping Data - What we want
         └────────────┬────────────┘
                      │
         ┌────────────▼────────────┐
-   ⑥    │        DISTINCT         │  ← Remove duplicate rows
+   ⑥    │        DISTINCT         │  ← Remove duplicate rows | Removing Duplicates
         └────────────┬────────────┘
                      │
         ┌────────────▼────────────┐
-   ⑦    │        ORDER BY         │  ← Sort the result set
+   ⑦    │        ORDER BY         │  ← Sort the result set | Sorting Data
         └────────────┬────────────┘
                      │
         ┌────────────▼────────────┐
-   ⑧    │      LIMIT / OFFSET     │  ← Trim to final row count
+   ⑧    │      LIMIT / OFFSET     │  ← Trim to final row count | Limiting Data
         └─────────────────────────┘
 ```
 
